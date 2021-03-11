@@ -1,48 +1,68 @@
-var cat ,garden;
-var background1;
-var mouseStanding, mouseStanding;
-function preload() {
-    cat = loadImage("cat1.png");   
-    catRunning = loadAnimation("cat2.png","cat3.png");
-    catSad = loadImage("cat4.png");
-    garden = loadImage("garden.png");
-    mouseStanding = loadImage("mouse1.png");
-    mouseTeasing = loadAnimation("mouse3.png");
+
+var ground, groundImg;
+
+var jerry, jerry_run;
+
+var  tom ,  tom_running ;
+
+function  preload ( )  {
+    groundImg = loadImage("garden.png");
+    jerryImg  =  loadAnimation ( "jerryOne.png" ) ;
+    jerryImage4 = loadAnimation("jerryFour.png");
+    jerry_run = loadAnimation("jerryTwo.png", "jerryThree.png");
+    tomImg1 = loadAnimation("tomOne.png");
+    tomImg4 = loadAnimation("tomFour.png");
+    tom_running = loadAnimation("tomTwo.png", "tomThree.png");
+
 }
 
 function setup(){
-    createCanvas(1000,800);
-   background1 = createSprite(500,400,10,50);
-   background1.addImage(garden);
+    createCanvas(680,400);
+    
+    ground = createSprite(340, 200);
+    ground.addImage("groundImg", groundImg);
+    ground.scale = 0.7;
 
-  cat1 = createSprite(700,660)
-  cat1.addImage(cat);
-  cat1.scale = 0.1;
+    tom = createSprite(500, 340, 20, 100);
+    tom.addAnimation("tomImg1", tomImg1);
+    tom . scale  =  0.1 ;
 
-  mouse1 = createSprite(100,660)
-  mouse1.addImage(mouseStanding);
-  mouse1.scale = 0.1;
+    jerry = createSprite(200, 340, 10, 40);
+    jerry.addAnimation("jerryImg", jerryImg);
+    jerry.scale = 0.1;
 
 }
+
 function draw() {
-    background(255);
 
-if(keyDown("LEFT_ARROW")){
+    console.log(tom.x - jerry.x);
 
-cat1.velocityX = -5;
-cat1.addAnimation("cat",catRunning);
-cat1.changeAnimation("cat");
+    background(rgb(30, 100, 220));
 
-}
+if (tom.x - jerry.x < tom.width / 2 - jerry.width / 2) {
+       tom.velocityX = 0;
+       tom.addAnimation("tomImg4", tomImg4);
+       tom.changeAnimation("tomImg4");
+       tom.x = 300;
 
-if(cat1.isTouching(mouse1)){
-
-    cat1.velocityX = 0;
-    mouse1.addAnimation("mouse",mouseTeasing);
-    mouse1.changeAnimation("mouse");
-    cat1.addAnimation("catworry",catSad);
-    cat1.changeAnimation("catworry");
-}
+       jerry.addAnimation("jerryImage4", jerryImage4);
+       jerry.changeAnimation("jerryImage4");
+       tom.bounce(jerry);
+    }
 
     drawSprites();
+}
+
+function keyPressed() {
+    
+    if (keyCode === LEFT_ARROW) {
+
+        tom.velocityX = -5;
+        tom.addAnimation("tom_running", tom_running);
+        tom.changeAnimation("tom_running");
+
+        jerry.addAnimation("jerry_run", jerry_run);
+        jerry.changeAnimation("jerry_run");
+    }
+    
 }
